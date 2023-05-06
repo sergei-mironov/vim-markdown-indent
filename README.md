@@ -23,3 +23,8 @@ that is it.
 
 ```
 
+
+References
+----------
+
+* [vim-kramdown-tab](https://github.com/mzlogin/vim-kramdown-tab)
