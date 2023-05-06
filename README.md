@@ -16,7 +16,7 @@ that is it.
   plugin to shift the line to the left.
 * But typing the list bullet other than the current one, say `-`, ...
   - makes a nested list start.
-  - All the above works with ...
+  - All the above works for
     multi
     line
   - list items
