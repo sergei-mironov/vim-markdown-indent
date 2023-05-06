@@ -1,7 +1,6 @@
 if exists("g:loaded_vim_markdown_indent")
-    finish
+  finish
 endif
-let g:loaded_vim_markdown_indent = 1
 
 
 let g:vim_markdown_indent_depth = 100
@@ -75,7 +74,12 @@ fun! MarkdownIndent(lnum) abort
   return -1
 endfun
 
-setlocal indentexpr=MarkdownIndent(v:lnum)
-setlocal indentkeys=!^F,=\ ,o,O,=\*\ ,=\-\ ,=\+\ 
+fun GetMarkdownIndent()
+  return MarkdownIndent(v:lnum)
+endfun
 
+setlocal indentexpr=GetMarkdownIndent()
+setlocal indentkeys=!^F,=\ ,o,O,=\*\ ,=\-\ ,=\+\ 
+let b:did_indent = 1 " To prevent vim-markdown from loading its indent
+let g:loaded_vim_markdown_indent = 1
 
