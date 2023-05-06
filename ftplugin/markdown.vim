@@ -3,7 +3,9 @@ if exists("g:loaded_vim_markdown_indent")
 endif
 let g:loaded_vim_markdown_indent = 1
 
+
 let g:vim_markdown_indent_depth = 100
+
 
 fun! MarkdownMatch(line)
   let line = a:line
@@ -42,6 +44,7 @@ fun! MarkdownMatchDeep(start_lnum, depth)
   endwhile
   return m
 endfun
+
 
 fun! MarkdownIndent(lnum) abort
   let l:curr_line = getline(a:lnum)
