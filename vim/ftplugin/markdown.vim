@@ -58,16 +58,18 @@ fun! MarkdownIndent(lnum) abort
     else
       return cm.pi
     endif
-  elseif pm.t=='list' && cm.t=='text'
-    return pm.i
+  elseif (pm.t=='list' || pm.t=='enum') && cm.t=='text'
+    if len(l:curr_line)>0 && l:curr_line[0] != '#'
+      return pm.i
+    else
+      return -1
+    endif
   elseif pm.t=='enum' && cm.t=='enum'
     if cm.number != '1'
       return pm.pi
     else
       return cm.pi
     endif
-  elseif pm.t=='enum' && cm.t=='text'
-    return pm.i
   elseif pm.t=='text' && cm.t=='enum'
     return pm.i - (cm.i - cm.pi)
   endif
