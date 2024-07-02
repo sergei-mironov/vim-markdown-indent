@@ -4,39 +4,46 @@ endif
 
 
 let g:vim_markdown_indent_depth = 100
+let g:vim_markdown_num_empty_to_reset = 2
 
 
 fun! MarkdownMatch(line)
   let line = a:line
   let m=matchstr(line,'^ *[-+*] ')
   if len(m)>0
-    return {'t':'list', 'bullet':m[-2:-1], 'i':len(m), 'pi':len(m)-2}
+    let r = {'t':'list', 'bullet':m[-2:-1], 'i':len(m), 'pi':len(m)-2}
+    return  r
   endif
   let m=matchstr(line,'^ *[0-9]\+\. ')
   if len(m)>0
     let npos = match(m,'[0-9]\+')
     let num = str2nr(m[npos:len(m)-1])
-    return {'t':'enum', 'number':num, 'i':len(m), 'pi':npos}
+    let r = {'t':'enum', 'number':num, 'i':len(m), 'pi':npos}
+    return r
   endif
   let m=matchstr(line,'^ *')
-  return {'t':'text', 'i':len(m)}
+  let r = {'t':'text', 'i':len(m)}
+  return r
 endfun
 
 
-fun! MarkdownMatchDeep(start_lnum, depth)
+fun! MarkdownMatchDeep(start_lnum, m_initial, depth)
+  let m = a:m_initial
   if a:start_lnum<=0
-    return MarkdownMatch('')
+    return m
   endif
-  let m = MarkdownMatch(getline(a:start_lnum))
   let i = a:start_lnum
+  let num_empty = 0
   while i>0 && (a:start_lnum-i)<a:depth
     let pline = getline(i)
-    " echomsg 'checking line '.i.': '.pline. ' against '.string(m)
     if len(pline)==0
+      let num_empty = num_empty + 1
+    endif
+    if num_empty >= g:vim_markdown_num_empty_to_reset
       return m
     endif
     let m2 = MarkdownMatch(pline)
-    if m2.t != 'text' || m2.i != m.i
+    if m2.t != 'text' " || m2.i != m.i
       return m2
     endif
     let i = i-1
@@ -47,11 +54,11 @@ endfun
 
 fun! MarkdownIndent(lnum) abort
   let l:curr_line = getline(a:lnum)
-  let l:prev_lnum = prevnonblank(a:lnum - 1)
+  let l:prev_lnum = a:lnum - 1
   if l:prev_lnum <= 0 | return -1 | endif
   let l:prev_line = getline(l:prev_lnum)
-  let pm=MarkdownMatchDeep(l:prev_lnum, g:vim_markdown_indent_depth)
   let cm=MarkdownMatch(l:curr_line)
+  let pm=MarkdownMatchDeep(l:prev_lnum, cm, g:vim_markdown_indent_depth)
   if pm.t=='list' && cm.t=='list'
     if pm.bullet == cm.bullet
       return pm.pi
@@ -59,10 +66,10 @@ fun! MarkdownIndent(lnum) abort
       return cm.pi
     endif
   elseif (pm.t=='list' || pm.t=='enum') && cm.t=='text'
-    if len(l:curr_line)>0 && l:curr_line[0] != '#'
-      return pm.i
-    else
+    if len(l:curr_line)>0 && (l:curr_line[0]=='#')
       return -1
+    else
+      return pm.i
     endif
   elseif pm.t=='enum' && cm.t=='enum'
     if cm.number != '1'
