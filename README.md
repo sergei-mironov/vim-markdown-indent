@@ -23,6 +23,7 @@ that is it.
 
 ```
 
+More details on formatting can be seen in [tests.sh](./test.sh).
 
 References
 ----------
