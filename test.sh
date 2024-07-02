@@ -131,6 +131,51 @@ EOF
 
 )}
 
+test_3() {(
+mktest "_test_3"
+
+cat >input.md <<EOF
+1. item
+2. item
+EOF
+
+vim_dev.sh -n >_vim.log 2>&1 <<"EOF"
+:redir > _vim_messages.log
+:e! input.md
+2G
+:execute "normal onew\<Esc>"
+:w output1.md
+
+:e! input.md
+2G
+:execute "normal o1. new\<Esc>"
+:w output2.md
+
+:e! input.md
+2G
+:execute "normal o3. new\<Esc>"
+:w output3.md
+EOF
+
+diff -u output1.md - <<EOF
+1. item
+2. item
+   new
+EOF
+
+diff -u output2.md - <<EOF
+1. item
+2. item
+   1. new
+EOF
+
+diff -u output3.md - <<EOF
+1. item
+2. item
+3. new
+EOF
+
+)}
 
 test_debug() {(
 mktest "_test_debug"
@@ -157,4 +202,5 @@ export REPO_ROOT=`pwd`
 export PATH="$REPO_ROOT/sh:$PATH"
 test_1
 test_2
+test_3
 echo OK
