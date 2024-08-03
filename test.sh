@@ -177,6 +177,31 @@ EOF
 
 )}
 
+test_4() {(
+mktest "_test_4"
+
+cat >input.md <<"EOF"
+``` sh
+* Inner list
+```
+EOF
+
+vim_dev.sh -n >_vim.log 2>&1 <<"EOF"
+:redir > _vim_messages.log
+:e! input.md
+3G
+:execute "normal onew\<Esc>"
+:w output1.md
+EOF
+
+diff -u output1.md - <<"EOF"
+``` sh
+* Inner list
+```
+new
+EOF
+)}
+
 test_debug() {(
 mktest "_test_debug"
 
