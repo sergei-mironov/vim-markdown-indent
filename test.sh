@@ -228,4 +228,5 @@ export PATH="$REPO_ROOT/sh:$PATH"
 test_1
 test_2
 test_3
+test_4
 echo OK
