@@ -2,7 +2,7 @@ if exists("g:loaded_vim_markdown_indent")
   finish
 endif
 
-
+let g:vim_markdown_indent_version = '1.0.0'
 let g:vim_markdown_indent_depth = 100
 let g:vim_markdown_num_empty_to_reset = 2
 
