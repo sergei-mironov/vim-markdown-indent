@@ -1,6 +1,8 @@
 Vim-markdown-indent
 ===================
 
+[[Vim script page](https://www.vim.org/scripts/script.php?script_id=6116)]
+
 A vim plugin to setup the indent expression for the Markdown files in Vim, and
 that is it.
 
@@ -23,7 +25,7 @@ that is it.
 
 ```
 
-More details on formatting can be seen in [tests.sh](./test.sh).
+More details on formatting can be seen in the [test script](./test.sh).
 
 References
 ----------
