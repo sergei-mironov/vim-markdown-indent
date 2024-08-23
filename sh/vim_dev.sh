@@ -5,8 +5,8 @@
 
 set +e
 
-if ! test -f "$REPO_ROOT/ftplugin/markdown.vim" ; then
-  echo "'ftplugin/markdown.vim' is not in the REPO_ROOT ($REPO_ROOT)." >&2
+if ! test -f "$REPO_ROOT/indent/markdown.vim" ; then
+  echo "'indent/markdown.vim' is not in the REPO_ROOT ($REPO_ROOT)." >&2
   exit 1
 fi
 vim -c "

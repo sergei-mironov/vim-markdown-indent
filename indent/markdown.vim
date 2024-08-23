@@ -1,6 +1,9 @@
 if exists("g:loaded_vim_markdown_indent")
   finish
 endif
+if exists("b:did_indent")
+  finish
+endif
 
 let g:vim_markdown_indent_version = '1.1.0'
 let g:vim_markdown_indent_depth = 100
