@@ -1,5 +1,5 @@
 VIM = $(shell find -name '*\.vim')
-VERSION = $(shell ex +"source ftplugin/markdown.vim | redir>>/dev/stdout | echon g:vim_markdown_indent_version | redir END" -scq!)
+VERSION = $(shell ex +"source indent/markdown.vim | redir>>/dev/stdout | echon g:vim_markdown_indent_version | redir END" -scq!)
 TARGZ = _dist/vim-markdown-indent-$(VERSION).tar.gz
 
 .PHONY: all
@@ -10,7 +10,7 @@ pack: $(TARGZ)
 
 $(TARGZ): $(VIM)
 	mkdir -p $$(dirname $(TARGZ)) || true
-	tar -czvf $@ ftplugin
+	tar -czvf $@ indent
 
 .PHONY: targets
 targets:
